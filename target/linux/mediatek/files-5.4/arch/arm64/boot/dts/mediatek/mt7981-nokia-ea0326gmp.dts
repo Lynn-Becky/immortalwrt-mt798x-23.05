@@ -93,7 +93,8 @@
 
 			partition@0 {
 				label = "BL2";
-				reg = <0x0 0x100000>;
+				reg = <0x00 0x100000>;
+				read-only;
 			};
 
 			partition@100000 {
@@ -122,11 +123,19 @@
 			};
 
 			partition@980000 {
-				label = "ubi";
-				reg = <0x980000 0x6e00000>;
+				label = "Aos-net";
+				reg = <0x980000 0xc00000>;
 			};
 
-			/* Leave last 8.5 MiB for NMBM bad block table */
+			partition@1580000 {
+				label = "bvasPlugin";
+				reg = <0x1580000 0xc00000>;
+			};
+
+			partition@2180000 {
+				label = "ubi";
+				reg = <0x2180000 0x5680000>;
+			};
 		};
 	};
 };
@@ -269,4 +278,3 @@
 &watchdog {
 	status = "okay";
 };
-
