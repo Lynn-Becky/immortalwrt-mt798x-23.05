@@ -4,14 +4,14 @@
 #include "mt7981.dtsi"
 
 / {
-	model = "GL.iNet GL-MT3000";
-	compatible = "glinet,mt3000-snand", "mediatek,mt7981";
+	model = "one r35-mini";
+	compatible = "one,r35-mini-snand", "mediatek,mt7981";
 
 	aliases {
-		led-boot = &led_system_blue;
-		led-failsafe = &led_system_blue;
-		led-running = &led_system_blue;
-		led-upgrade = &led_system_white;
+		led-boot = &status_led;
+		led-failsafe = &status_led;
+		led-running = &status_led;
+		led-upgrade = &status_led;
 	};
 
 	chosen {
@@ -28,8 +28,8 @@
 			gpios = <&pio 1 GPIO_ACTIVE_LOW>;
 		};
 
-		switch {
-			label = "switch";
+		user {
+			label = "user";
 			linux,code = <BTN_0>;
 			linux,input-type = <EV_SW>;
 			gpios = <&pio 0 GPIO_ACTIVE_LOW>;
@@ -39,15 +39,21 @@
 	leds {
 		compatible = "gpio-leds";
 
-		led_system_blue: system_blue {
-			label = "blue:system";
-			gpios = <&pio 31 GPIO_ACTIVE_LOW>;
+		status_led: red {
+			label = "red:system";
+			gpios = <&pio 9 GPIO_ACTIVE_LOW>;
 		};
 
-		led_system_white: system_white {
-			label = "white:system";
-			gpios = <&pio 30 GPIO_ACTIVE_LOW>;
+		led-0 {
+			label = "blue0:wifi2g";
+			gpios = <&pio 34 GPIO_ACTIVE_LOW>;
+                        default-state = "on";
 		};
+                led-1 {
+                        label = "blue1:wifi5g";
+                        gpios = <&pio 35 GPIO_ACTIVE_LOW>;
+                        default-state = "on";
+                };
 	};
 
 	nmbm_spim_nand {
@@ -94,7 +100,7 @@
 
 			partition@5c0000 {
 				label = "ubi";
-				reg = <0x05c0000 0xf640000>;
+				reg = <0x05c0000 0x7b0c000>;
 			};
 		};
 	};
@@ -195,10 +201,10 @@
 			nvmem-cell-names = "phy-cal-data";
 		};
 
-		phy5: phy@5 {
+		phy6: phy@6 {
 			compatible = "ethernet-phy-id67c9.de0a";
-			reg = <5>;
-			reset-gpios = <&pio 14 1>;
+			reg = <6>;
+			reset-gpios = <&pio 39 1>;
 			reset-assert-us = <600>;
 			reset-deassert-us = <20000>;
 			phy-mode = "2500base-x";
@@ -293,6 +299,10 @@
 };
 
 &uart0 {
+	status = "okay";
+};
+
+&pcie {
 	status = "okay";
 };
 
