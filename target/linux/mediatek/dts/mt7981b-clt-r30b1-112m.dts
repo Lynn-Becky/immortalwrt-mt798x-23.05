@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+
+/dts-v1/;
+#include "mt7981b-clt-r30b1.dtsi"
+
+/ {
+	model = "CLT R30B1 (with 112M ubi)";
+	compatible = "clt,r30b1", "mediatek,mt7981";
+};
+
+&partitions {
+	partition@580000 {
+		label = "ubi";
+		reg = <0x580000 0x7000000>;
+	};
+};

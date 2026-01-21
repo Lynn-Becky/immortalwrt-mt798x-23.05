@@ -509,6 +509,43 @@ define Device/cetron_ct3003
 endef
 TARGET_DEVICES += cetron_ct3003
 
+define Device/clt_r30b1
+  DEVICE_VENDOR := CLT
+  DEVICE_MODEL := R30B1
+  DEVICE_DTS := mt7981b-clt-r30b1
+  DEVICE_DTS_DIR := ../dts
+  SUPPORTED_DEVICES += clt,r30b1
+  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 65536k
+  KERNEL_IN_UBI := 1
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += clt_r30b1
+
+define Device/clt_r30b1-112m
+  DEVICE_VENDOR := CLT
+  DEVICE_MODEL := R30B1
+  DEVICE_VARIANT := (with 112M ubi)
+  DEVICE_DTS := mt7981b-clt-r30b1-112m
+  DEVICE_DTS_DIR := ../dts
+  SUPPORTED_DEVICES += clt,r30b1
+  DEVICE_PACKAGES := kmod-mt7915e kmod-mt7981-firmware mt7981-wo-firmware
+  UBINIZE_OPTS := -E 5
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE_SIZE := 114688k
+  KERNEL_IN_UBI := 1
+  IMAGES += factory.bin
+  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += clt_r30b1-112m
+
 define Device/cetron_ct3003-ubootmod
   DEVICE_VENDOR := Cetron
   DEVICE_MODEL := CT3003
