@@ -9,6 +9,7 @@ mediatek_setup_interfaces()
 
 	case $board in
 	abt,asr3000|\
+	clt,r30b1|\
 	cmcc,rax3000m*|\
 	cmcc,rax3000me|\
 	cmcc,xr30*|\
@@ -194,6 +195,8 @@ mediatek_setup_macs()
 	local lan_mac=""
 	local wan_mac=""
 	local label_mac=""
+	local wifi0_mac=""
+	local wifi1_mac=""
 	local b0dat="$(l1dat if2dat ra0)"
 	local b1dat="$(l1dat if2dat rax0)"
 	case $board in
@@ -206,6 +209,13 @@ mediatek_setup_macs()
 	acer,vero-w6m)
 		wan_mac=$(mmc_get_mac_ascii u-boot-env WANMAC)
 		lan_mac=$(mmc_get_mac_ascii u-boot-env LANMAC)
+		;;
+	clt,r30b1)
+		lan_mac=$(mtd_get_mac_binary Factory 0x2a)
+		wan_mac=$(mtd_get_mac_binary Factory 0x24)
+		label_mac=$lan_mac
+		wifi0_mac=$(macaddr_add "$lan_mac" 1)
+		wifi1_mac=$(macaddr_add "$lan_mac" 2)
 		;;
 	cudy,tr3000-v1)
 		wan_mac=$(mtd_get_mac_binary bdinfo 0xde00)
@@ -312,12 +322,12 @@ mediatek_setup_macs()
 	fi
 
 	if [ -f ${b0dat} ] && ! grep -q "MacAddress=" ${b0dat}; then
-			local b0mac="$(macaddr_add "$base_mac" 3)"
-			echo "MacAddress=$b0mac" >> ${b0dat}
-		fi
+		[ -n "$wifi0_mac" ] || wifi0_mac="$(macaddr_add "$base_mac" 3)"
+		echo "MacAddress=$wifi0_mac" >> ${b0dat}
+	fi
 	if [ -f ${b1dat} ] && ! grep -q "MacAddress=" ${b1dat}; then
-			local b1mac="$(macaddr_add "$base_mac" 4)"
-			echo "MacAddress=$b1mac" >> ${b1dat}
+		[ -n "$wifi1_mac" ] || wifi1_mac="$(macaddr_add "$base_mac" 4)"
+		echo "MacAddress=$wifi1_mac" >> ${b1dat}
 	fi
 
 	[ -n "$lan_mac" ] && ucidef_set_interface_macaddr "lan" $lan_mac
