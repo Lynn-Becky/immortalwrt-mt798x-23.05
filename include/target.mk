@@ -62,7 +62,6 @@ DEFAULT_PACKAGES.router:=\
 # @brief For easy usage
 ##
 DEFAULT_PACKAGES.tweak:=\
-	block-mount \
 	default-settings-chn \
 	kmod-nf-nathelper \
 	kmod-nf-nathelper-extra \
