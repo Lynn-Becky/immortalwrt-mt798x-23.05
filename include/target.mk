@@ -65,7 +65,6 @@ DEFAULT_PACKAGES.tweak:=\
 	default-settings-chn \
 	kmod-nf-nathelper \
 	kmod-nf-nathelper-extra \
-	luci-light \
 	luci-app-package-manager \
 	luci-compat \
 	luci-lib-base \
